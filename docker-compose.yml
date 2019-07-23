@@ -1,0 +1,31 @@
+version: '3.1'
+
+volumes:
+  database:
+    driver: local
+
+#networks:
+#  default:
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: ${DOCKER_SUBNET}
+#          # Note: Additional IPAM configurations, such as gateway, are only honored for version 2 at the moment.
+#          # https://docs.docker.com/compose/compose-file/#ipam
+#          #gateway: ${DOCKER_GATEWAY_IP}
+
+services:
+  php:
+    image: php7.2-cli
+    build: ./docker/php-cli
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www
+  composer:
+    image: composer:7.2
+    build: ./docker/composer
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www
